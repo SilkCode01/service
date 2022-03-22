@@ -1,4 +1,4 @@
-package ro.unibuc.hello;
+package ro.unibuc.hello.controller;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -20,13 +20,14 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class GetData {
+public class CryptoController {
 
     private static String apiKey = "9a3453f0-954f-4b35-89c0-629c868b146a";
 
-    public static void main(String[] args) {
+    public static void main() {
         /*String uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
         List<NameValuePair> paratmers = new ArrayList<NameValuePair>();
         paratmers.add(new BasicNameValuePair("start","1"));
@@ -34,20 +35,22 @@ public class GetData {
         paratmers.add(new BasicNameValuePair("convert","USD"));*/
 
         String uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map";
-//      String uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
+        //String uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-        parameters.add(new BasicNameValuePair("start","1"));
-        parameters.add(new BasicNameValuePair("limit","10"));
-        parameters.add(new BasicNameValuePair("sort","id"));
+        parameters.add(new BasicNameValuePair("start", "1"));
+        parameters.add(new BasicNameValuePair("limit", "10"));
+        parameters.add(new BasicNameValuePair("sort", "id"));
 
 
+        JSONObject parsed_result = null;
         try {
             String result = makeAPICall(uri, parameters);
             /*System.out.println(result);
             System.out.println(result.getClass());*/
             JSONParser parser = new JSONParser();
-            JSONObject parsed_result = (JSONObject) parser.parse(result);
-            System.out.println(parsed_result);
+            parsed_result = (JSONObject) parser.parse(result);
+            System.out.println(Filter(parsed_result));
+            //System.out.println(parsed_result);
             /*System.out.println(parsed_result.getClass());*/
 
         } catch (IOException e) {
@@ -57,6 +60,29 @@ public class GetData {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public static JSONArray Filter(JSONObject json) {
+        JSONArray data = (JSONArray) json.get("data");
+        JSONObject[] dataList = new JSONObject[data.size()];
+        String[] dataList2 = new String[data.size()];
+        JSONObject[] subData = new JSONObject[data.size()];
+        JSONArray filteredData = new JSONArray();
+        System.out.println(json);
+        for(int i = 0; i < data.size(); i++) {
+            dataList[i] = (JSONObject) data.get(i);
+            //System.out.println(dataList[i]);
+            //System.out.println(dataList[i].get("name"));
+            //dataList2[i] = (String) dataList[i].get("name");
+            subData[i] = new JSONObject();
+            subData[i].put("name", (String)dataList[i].get("name"));
+            subData[i].put("rank", (Long)dataList[i].get("rank"));
+            subData[i].put("last_historical_data", (String)dataList[i].get("last_historical_data"));
+            subData[i].put("first_historical_data", (String)dataList[i].get("first_historical_data"));
+            filteredData.add(i, subData[i]);
+        }
+        //System.out.println(filteredData);
+        return filteredData;
     }
 
     public static String makeAPICall(String uri, List<NameValuePair> parameters)
