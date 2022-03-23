@@ -18,7 +18,7 @@ public class CoinApplication {
     private CoinRepository coinRepository;
 
     public static void main(String[] args) {
-        SpringApplication.run(HelloApplication.class, args);
+        SpringApplication.run(CoinApplication.class, args);
     }
 
     @PostConstruct
