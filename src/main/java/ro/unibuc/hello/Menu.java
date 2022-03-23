@@ -1,6 +1,7 @@
 package ro.unibuc.hello;
-
+//package CryptoController.;
 import org.springframework.boot.SpringApplication;
+import ro.unibuc.hello.controller.CryptoController;
 
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class Menu {
             System.out.println("Type the number of your option then press enter:\n" +
                     "1.Show recent\n" +
                     "2.Search cryptocurrency\n" +
+                    "3.Show all\n" +
                     "0.Exit");
             option = input.nextInt();
             switch(option){
@@ -22,6 +24,9 @@ public class Menu {
                     break;
                 case 2:
                     System.out.println("Feature not yet available");
+                    break;
+                case 3:
+                    CryptoController.main();
                     break;
                 case 0:
                     exit = 1;
