@@ -19,36 +19,48 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GetData {
 
     private static String apiKey = "9a3453f0-954f-4b35-89c0-629c868b146a";
 
     public static void main(String[] args) {
-        /*String uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
-        List<NameValuePair> paratmers = new ArrayList<NameValuePair>();
-        paratmers.add(new BasicNameValuePair("start","1"));
-        paratmers.add(new BasicNameValuePair("limit","5000"));
-        paratmers.add(new BasicNameValuePair("convert","USD"));*/
 
-        String uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map";
-//      String uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
+
+//        String uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/category";
+        String uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();
         parameters.add(new BasicNameValuePair("start","1"));
         parameters.add(new BasicNameValuePair("limit","10"));
-        parameters.add(new BasicNameValuePair("sort","id"));
+        parameters.add(new BasicNameValuePair("convert","USD"));
+        parameters.add(new BasicNameValuePair("sort","price"));
+        parameters.add(new BasicNameValuePair("sort_dir","desc"));
+        parameters.add(new BasicNameValuePair("cryptocurrency_type","coins"));
+        parameters.add(new BasicNameValuePair("price_max","3000"));
+
 
 
         try {
             String result = makeAPICall(uri, parameters);
-            /*System.out.println(result);
-            System.out.println(result.getClass());*/
+
             JSONParser parser = new JSONParser();
             JSONObject parsed_result = (JSONObject) parser.parse(result);
-            System.out.println(parsed_result);
-            /*System.out.println(parsed_result.getClass());*/
+            JSONArray data = (JSONArray) parsed_result.get("data");
+            System.out.println(data);
+            System.out.println(parsed_result.keySet());
+
+            for (int i = 0; i < data.size(); i++){
+                JSONObject symbol = (JSONObject) data.get(i);
+                JSONObject quote = (JSONObject) symbol.get("quote");
+                JSONObject usd = (JSONObject) quote.get("USD");
+                System.out.print(symbol.get("name"));
+                System.out.print(": ");
+                System.out.print(usd.get("price"));
+                System.out.print(" USD");
+                System.out.println(" ");
+            }
+
 
         } catch (IOException e) {
             System.out.println("Error: cannont access content - " + e.toString());

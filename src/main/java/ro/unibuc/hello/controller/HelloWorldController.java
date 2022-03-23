@@ -26,6 +26,12 @@ public class HelloWorldController {
     public Greeting sayHello(@RequestParam(name="name", required=false, defaultValue="Stranger") String name) {
         return new Greeting(counter.incrementAndGet(), String.format(helloTemplate, name));
     }
+//
+//    @GetMapping("/person-info")
+//    @ResponseBody
+//    public Greeting sayHelloAndAge(@RequestParam(name = "pinfo", required = false, defaultValue = "0") String age){
+//        return new Greeting(counter.incrementAndGet(), String.format(helloTemplate, age));
+//    }
 
     @GetMapping("/info")
     @ResponseBody
@@ -35,3 +41,5 @@ public class HelloWorldController {
     }
 
 }
+
+// TO DO :
