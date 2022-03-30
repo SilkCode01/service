@@ -1,4 +1,4 @@
-package ro.unibuc.hello.Service;
+package ro.unibuc.hello.service;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
@@ -24,8 +24,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CoinService {
 
-    private final static String apiKey = "9a3453f0-954f-4b35-89c0-629c868b146a";
-    public static String makeAPICall(String uri, List<NameValuePair> parameters)
+    private final String apiKey = "9a3453f0-954f-4b35-89c0-629c868b146a";
+    public String makeAPICall(String uri, List<NameValuePair> parameters)
             throws URISyntaxException, IOException {
         String response_content = "";
 
@@ -47,7 +47,7 @@ public class CoinService {
         return response_content;
     }
 
-    public static JSONArray Filter(JSONObject json) {
+    public JSONArray filter(JSONObject json) {
         JSONArray data = (JSONArray) json.get("data");
         JSONObject[] dataList = new JSONObject[data.size()];
         JSONObject[] quote = new JSONObject[data.size()];
@@ -73,6 +73,7 @@ public class CoinService {
         parameters.add(new BasicNameValuePair("start", "1"));
         parameters.add(new BasicNameValuePair("limit", "10"));
         parameters.add(new BasicNameValuePair("sort", "price"));
+        parameters.add(new BasicNameValuePair("price_max", "5000"));
 
 
         JSONObject parsed_result = null;
@@ -81,7 +82,7 @@ public class CoinService {
 
             JSONParser parser = new JSONParser();
             parsed_result = (JSONObject) parser.parse(result);
-            return Filter(parsed_result);
+            return filter(parsed_result);
 
         } catch (IOException e) {
             System.out.println("Error: cannont access content - " + e.toString());

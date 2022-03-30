@@ -6,7 +6,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import ro.unibuc.hello.data.CoinRepository;
 
 @SpringBootTest
-class HelloApplicationTests {
+class CoinApplicationTests {
 
 	@MockBean
 	CoinRepository mockRepository;

@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface CoinRepository extends MongoRepository<CoinEntity, String> {
+public interface CoinRepository extends MongoRepository<CoinEntity, Long> {
 
-    public CoinRepository findByTitle(String title);
-    public List<CoinEntity> findByDescription(String description);
+    public CoinRepository findByid(long id);
+//    public List<CoinEntity> findByDescription(String description);
 
 }
 

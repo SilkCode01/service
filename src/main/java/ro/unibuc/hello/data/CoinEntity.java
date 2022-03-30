@@ -4,22 +4,16 @@ import org.springframework.stereotype.Component;
 
 public class CoinEntity {
     @Id
-    public String id;
+    public long id;
 
-    public String title;
-    public String description;
+    public String name;
+    public long price;
 
-    public CoinEntity(String title, String description) {
-        this.title = title;
-        this.description = description;
+    public CoinEntity(long id, String name, long price) {
+        this.name = name;
+        this.id = id;
+        this.price = price;
 
-    }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "Information[id= '%s', title='%s', description='%s']",
-                id, title, description);
     }
 
 }
