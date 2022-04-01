@@ -45,6 +45,35 @@ public class CoinApplicationTTests {
         Assertions.assertSame(null, coinDto.getName());
     }
 
+    @Test
+    void test_hello_buildCoinFromInfo_returnCoinWithInfo() {
+        // Arrange
+        long id = 1;
+        String name = "Sake";
+        long price = 4864;
+        CoinEntity coinEntity = new CoinEntity(id, name, price);
+        when(mockCoinRepository.findByid(id)).thenReturn(coinEntity);
+        // Act
+        CoinDto coinDto = coinApplicationT.buildCoinFromInfo(id);
+        // Assert
+        Assertions.assertEquals(1, coinDto.getId());
+        Assertions.assertEquals("Sake", coinDto.getName());
+    }
 
-
+    @Test
+    void test_buildCoinFromInfo_throwsEntityNotFoundException_whenInformationNull() {
+        // Arrange
+        long id = 1;
+        when(mockCoinRepository.findByid(id)).thenReturn(null);
+        try {
+            // Act
+            CoinDto coinDto = coinApplicationT.buildCoinFromInfo(id);
+        } catch (Exception ex) {
+            // Assert
+            Assertions.assertEquals(ex.getClass(), EntityNotFoundException.class);
+            Assertions.assertEquals(ex.getMessage(), "Entity: 1 was not found");
+        }
+    }
 }
+
+

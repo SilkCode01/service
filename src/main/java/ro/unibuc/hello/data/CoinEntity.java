@@ -9,6 +9,8 @@ public class CoinEntity {
     public String name;
     public long price;
 
+    public CoinEntity() {}
+
     public CoinEntity(long id, String name, long price) {
         this.name = name;
         this.id = id;

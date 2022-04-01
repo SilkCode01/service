@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CoinService {
 
-    private final String apiKey = "9a3453f0-954f-4b35-89c0-629c868b146a";
     public String makeAPICall(String uri, List<NameValuePair> parameters)
             throws URISyntaxException, IOException {
         String response_content = "";
@@ -36,6 +35,7 @@ public class CoinService {
         HttpGet request = new HttpGet(query.build());
 
         request.setHeader(HttpHeaders.ACCEPT, "application/json");
+        String apiKey = "9a3453f0-954f-4b35-89c0-629c868b146a";
         request.addHeader("X-CMC_PRO_API_KEY", apiKey);
 
         try (CloseableHttpResponse response = client.execute(request)) {
@@ -69,7 +69,7 @@ public class CoinService {
 
     public JSONArray getPricesandNames () {
         String uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
-        List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+        List<NameValuePair> parameters = new ArrayList<>();
         parameters.add(new BasicNameValuePair("start", "1"));
         parameters.add(new BasicNameValuePair("limit", "10"));
         parameters.add(new BasicNameValuePair("sort", "price"));

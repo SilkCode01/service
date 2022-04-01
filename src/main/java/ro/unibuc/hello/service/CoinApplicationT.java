@@ -21,12 +21,13 @@ public class CoinApplicationT {
         return new CoinDto(counter.incrementAndGet(), name, price);
     }
     public CoinDto buildCoinFromInfo(long id) throws EntityNotFoundException {
-        CoinEntity coinEntity = (CoinEntity) coinRepository.findByid(id);
+        CoinEntity coinEntity = coinRepository.findByid(id);
         if (coinEntity == null) {
             throw new EntityNotFoundException(id);
         }
         return new CoinDto(counter.incrementAndGet(), coinEntity.name, coinEntity.price);
     }
+
 
 
 }
