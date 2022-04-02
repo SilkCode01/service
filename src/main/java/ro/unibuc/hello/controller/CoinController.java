@@ -1,12 +1,12 @@
 package ro.unibuc.hello.controller;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ro.unibuc.hello.service.CoinService;
 import ro.unibuc.hello.data.CoinRepository;
@@ -43,6 +43,25 @@ public class CoinController {
         List<CoinEntity> coinEntities = coinRepository.findAll();
         String dataList = "";
         for(CoinEntity coinEntity : coinEntities) {
+            dataList += String.format("Name: %s\nPrice: %d", coinEntity.name, coinEntity.price);
+            dataList += "\n";
+        }
+        return dataList;
+    }
+
+    @GetMapping("/search-low-price")
+    @ResponseBody
+    public String showPrice(@RequestParam(name="price", required=true, defaultValue="0") long price) {
+        List<CoinEntity> coins = new ArrayList<>();
+        try {
+            coins = coinRepository.findByPriceBetween(0l, price);
+        }
+        catch(NullPointerException e)
+        {
+            return String.format("Error: No CryptoCoins with a price lower than %d", price);
+        }
+        String dataList = "";
+        for(CoinEntity coinEntity : coins) {
             dataList += String.format("Name: %s\nPrice: %d", coinEntity.name, coinEntity.price);
             dataList += "\n";
         }
