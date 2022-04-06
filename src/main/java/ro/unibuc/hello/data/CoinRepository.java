@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface CoinRepository extends MongoRepository<CoinEntity, Long> {
 
     public CoinEntity findByid(long id);
-    public List<String> findAllByPrice();
+    public List<String> findByprice();
 
 }
 

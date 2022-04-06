@@ -32,7 +32,10 @@ public class CoinApplicationTTestsIT {
         Assertions.assertEquals("Sake", coinDto.getName());
     }
 
-
+    @Test
+    void test_price_is_sorted(){
+        Assertions.assertSame(true, coinApplicationT.checkIfordered());
+    }
 
 
 }
