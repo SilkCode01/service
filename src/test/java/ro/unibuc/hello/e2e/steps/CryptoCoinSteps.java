@@ -50,7 +50,7 @@ public class CryptoCoinSteps {
     }
 
     @And("^the client receives response (.+)$")
-    public void the_client_receives_response(String response) throws JsonProcessingException {
+    public void the_client_receives_response(int response) throws JsonProcessingException {
         String latestResponseBody = latestResponse.getBody();
         int message = new ObjectMapper().readValue(latestResponseBody, int.class);
         assertThat("Response received is incorrect", message, is(response));
