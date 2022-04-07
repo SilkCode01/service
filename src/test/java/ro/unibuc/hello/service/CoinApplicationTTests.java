@@ -74,6 +74,12 @@ public class CoinApplicationTTests {
             Assertions.assertEquals(ex.getMessage(), "Entity: 1 was not found");
         }
     }
+
+    @Test
+    void test_checkIfOrdered() {
+        //Arrange
+
+    }
 }
 
 

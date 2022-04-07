@@ -11,6 +11,7 @@ public interface CoinRepository extends MongoRepository<CoinEntity, Long> {
 
     public CoinEntity findByid(long id);
     public List<String> findByprice();
+    public List<CoinEntity> findByPriceBetween(long price1, long price2);
 
 }
 
