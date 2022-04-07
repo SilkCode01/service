@@ -75,11 +75,6 @@ public class CoinApplicationTTests {
         }
     }
 
-    @Test
-    void test_checkIfOrdered() {
-        //Arrange
-
-    }
 }
 
 

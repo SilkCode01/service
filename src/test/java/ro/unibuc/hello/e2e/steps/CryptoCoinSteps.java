@@ -37,39 +37,39 @@ public class CryptoCoinSteps {
     @Autowired
     protected RestTemplate restTemplate;
 
-//    @Given("^the client calls /refresh-price")
-//    public void the_client_issues_GET_update_price() {
-//        executeGet("http://localhost:8080/refresh-price");
-//    }
-//
-//
-//    @Then("^the client receives status code of (\\d+)$")
-//    public void the_client_receives_status_code_of(int statusCode) throws Throwable {
-//        final HttpStatus currentStatusCode = latestResponse.getTheResponse().getStatusCode();
-//        assertThat("status code is incorrect : " + latestResponse.getBody(), currentStatusCode.value(), is(statusCode));
-//    }
-//
-//    @And("^the client receives response (.+)$")
-//    public void the_client_receives_response(int response) throws JsonProcessingException {
-//        String latestResponseBody = latestResponse.getBody();
-//        int message = new ObjectMapper().readValue(latestResponseBody, int.class);
-//        assertThat("Response received is incorrect", message, is(response));
-//    }
-//
-//    public void executeGet(String url) {
-//        final Map<String, String> headers = new HashMap<>();
-//        headers.put("Accept", "application/json");
-//        final HeaderSetup requestCallback = new HeaderSetup(headers);
-//        final ResponseErrorHandler errorHandler = new ResponseErrorHandler();
-//
-//        restTemplate.setErrorHandler(errorHandler);
-//        latestResponse = restTemplate.execute(url, HttpMethod.GET, requestCallback, response -> {
-//            if (errorHandler.getHadError()) {
-//                return (errorHandler.getResults());
-//            } else {
-//                return (new ResponseResults(response));
-//            }
-//        });
-//    }
+    @Given("^the client calls /refresh-price")
+    public void the_client_issues_GET_update_price() {
+        executeGet("http://localhost:8080/refresh-price");
+    }
+
+
+    @Then("^the client receives status code of (\\d+)$")
+    public void the_client_receives_status_code_of(int statusCode) throws Throwable {
+        final HttpStatus currentStatusCode = latestResponse.getTheResponse().getStatusCode();
+        assertThat("status code is incorrect : " + latestResponse.getBody(), currentStatusCode.value(), is(statusCode));
+    }
+
+    @And("^the client receives response (.+)$")
+    public void the_client_receives_response(int response) throws JsonProcessingException {
+        String latestResponseBody = latestResponse.getBody();
+        int message = new ObjectMapper().readValue(latestResponseBody, int.class);
+        assertThat("Response received is incorrect", message, is(response));
+    }
+
+    public void executeGet(String url) {
+        final Map<String, String> headers = new HashMap<>();
+        headers.put("Accept", "application/json");
+        final HeaderSetup requestCallback = new HeaderSetup(headers);
+        final ResponseErrorHandler errorHandler = new ResponseErrorHandler();
+
+        restTemplate.setErrorHandler(errorHandler);
+        latestResponse = restTemplate.execute(url, HttpMethod.GET, requestCallback, response -> {
+            if (errorHandler.getHadError()) {
+                return (errorHandler.getResults());
+            } else {
+                return (new ResponseResults(response));
+            }
+        });
+    }
 
 }
