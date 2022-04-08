@@ -20,6 +20,8 @@ pipeline {
                 }
                 sh "docker login docker.io -u tibicode -p Georgewbush@01"
                 sh "docker build -t tibicode/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
+                sh "docker push <tibicode>/hello-img:$IMAGE_VERSION"
+
               }
         }
 
