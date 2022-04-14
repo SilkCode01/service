@@ -7,7 +7,7 @@ pipeline {
             MINOR_VERSION = sh([script: 'git tag | cut -d . -f 2', returnStdout: true]).trim()
             PATCH_VERSION = sh([script: 'git tag | cut -d . -f 3', returnStdout: true]).trim()
             //DOCKER_PASSWORD = credentials("Georgewbush@01")
-            GITHUB_TOKEN = credentials("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")
+         //   GITHUB_TOKEN = credentials("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")
 
         }
 
