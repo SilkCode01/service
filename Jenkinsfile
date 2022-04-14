@@ -15,7 +15,7 @@ pipeline {
         stage('Build & Test') {
             steps {
                 sh './gradlew clean build'
-            }
+        }
 
         stage('Tag image') {
               steps {
@@ -30,6 +30,7 @@ pipeline {
 
               }
         }
+    }
 }
 
 //  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
