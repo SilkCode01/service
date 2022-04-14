@@ -59,8 +59,8 @@ public class CoinService {
             quote[i] = (JSONObject) dataList[i].get("quote");
             quote[i] = (JSONObject) quote[i].get("USD");
             subData[i] = new JSONObject();
-            subData[i].put("name", (String)dataList[i].get("name"));
-            subData[i].put("price", (Double)quote[i].get("price"));
+            subData[i].put("name", dataList[i].get("name"));
+            subData[i].put("price", quote[i].get("price"));
             filteredData.add(i, subData[i]);
         }
 
