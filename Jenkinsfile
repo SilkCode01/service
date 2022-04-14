@@ -1,36 +1,35 @@
 pipeline {
-    agent any
-    environment {
+        agent any
+        environment {
 
-        GIT_TAG = sh([script: 'git fetch --tag && git tag', returnStdout: true]).trim()
-        MAJOR_VERSION = sh([script: 'git tag | cut -d . -f 1', returnStdout: true]).trim()
-        MINOR_VERSION = sh([script: 'git tag | cut -d . -f 2', returnStdout: true]).trim()
-        PATCH_VERSION = sh([script: 'git tag | cut -d . -f 3', returnStdout: true]).trim()
-        DOCKER_PASSWORD = credentials("docker_password")
-        GITHUB_TOKEN = credentials("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")
+            GIT_TAG = sh([script: 'git fetch --tag && git tag', returnStdout: true]).trim()
+            MAJOR_VERSION = sh([script: 'git tag | cut -d . -f 1', returnStdout: true]).trim()
+            MINOR_VERSION = sh([script: 'git tag | cut -d . -f 2', returnStdout: true]).trim()
+            PATCH_VERSION = sh([script: 'git tag | cut -d . -f 3', returnStdout: true]).trim()
+            DOCKER_PASSWORD = credentials("docker_password")
+            GITHUB_TOKEN = credentials("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")
 
-    }
-
-    stages {
-        stage('Build & Test') {
-            steps {
-                sh './gradlew clean build'
         }
 
-        stage('Tag image') {
-              steps {
-                sh '''
-                    docker build -t tibicode/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} .
-                    docker login docker.io -u tibicode -p Georgewbush@01"
-                    docker push <tibicode>/hello-img:$IMAGE_VERSION"
-                '''
+        stages {
+            stage('Build & Test') {
+                steps {
+                    sh './gradlew clean build'
+            }
 
-                sh "git tag ${env.IMAGE_TAG}"
-                sh "git push https://$env.GITHUB_TOKEN@github.com/SilkCode01/service.git ${env.IMAGE_TAG}"
+            stage('Tag image') {
+                steps {
+                    sh '''
+                        docker build -t tibicode/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} .
+                        docker login docker.io -u tibicode -p Georgewbush@01"
+                        docker push <tibicode>/hello-img:$IMAGE_VERSION"
+                    '''
 
-              }
+                    sh "git tag ${env.IMAGE_TAG}"
+                    sh "git push https://$env.GITHUB_TOKEN@github.com/SilkCode01/service.git ${env.IMAGE_TAG}"
+
+                }
+            }
         }
     }
-}
 
-//  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
