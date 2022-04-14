@@ -14,20 +14,20 @@ pipeline {
         stages {
             stage('Build & Test') {
                 steps {
-                    sh './gradlew clean build'
+                    bat './gradlew clean build'
                 }
             }
 
             stage('Tag image') {
                 steps {
-                    sh '''
+                    bat '''
                         docker build -t tibicode/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} .
                         docker login docker.io -u tibicode -p Georgewbush@01"
                         docker push <tibicode>/hello-img:$IMAGE_VERSION"
                     '''
 
-                    sh "git tag ${env.IMAGE_TAG}"
-                    sh "git push https://$env.GITHUB_TOKEN@github.com/SilkCode01/service.git ${env.IMAGE_TAG}"
+                    bat "git tag ${env.IMAGE_TAG}"
+                    bat "git push https://$env.GITHUB_TOKEN@github.com/SilkCode01/service.git ${env.IMAGE_TAG}"
 
                 }
             }
