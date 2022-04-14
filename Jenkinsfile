@@ -17,6 +17,7 @@ pipeline {
             stage('Tag image') {
                   steps {
                     sh "docker build -t tibicode/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
+                    sh "docker login docker.io -u tibicode -p Georgewbush@01"
                     sh "docker push <tibicode>/hello-img:$IMAGE_VERSION"
                   }
             }
