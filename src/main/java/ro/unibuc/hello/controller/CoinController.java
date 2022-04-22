@@ -12,6 +12,9 @@ import ro.unibuc.hello.service.CoinService;
 import ro.unibuc.hello.data.CoinRepository;
 import ro.unibuc.hello.dto.CoinDto;
 import ro.unibuc.hello.data.CoinEntity;
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
 @Controller
 public class CoinController {
 
@@ -21,10 +24,15 @@ public class CoinController {
     @Autowired
     private CoinService coinService;
 
+    /*@Autowired
+    MeterRegistry metricsRegistry;*/
+
     private final AtomicLong counter = new AtomicLong();
 
     @GetMapping("/refresh-price")
     @ResponseBody
+    @Timed(value = "coin.refresh.time", description = "Time taken to return message")
+    @Counted(value = "coin.refresh.count", description = "Times message was returned")
     public int dataRefresh() {
         JSONArray refreshedData = coinService.getPricesandNames();
         for (int i = 0; i < refreshedData.size(); i++) {
@@ -34,12 +42,15 @@ public class CoinController {
                     (long) Double.parseDouble(x.get("price").toString()));
             coinRepository.save(coin);
         }
-//      return "Data update successfull!";
+//      return "Data update successful!";
+        //metricsRegistry.counter("my_non_aop_metric", "endpoint", "coin").increment(counter.incrementAndGet());
         return 1;
     }
 
     @GetMapping("/show-list")
     @ResponseBody
+    @Timed(value = "coin.list.time", description = "Time taken to return list")
+    @Counted(value = "coin.list.count", description = "Times list was returned")
     public String showAll() {
         List<CoinEntity> coinEntities = coinRepository.findAll();
         String dataList = "";
