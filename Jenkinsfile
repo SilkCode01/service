@@ -36,13 +36,15 @@ pipeline {
 //                      sh "docker build -t ${DOCKER_USERNAME}/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
 
                        withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'DOCKER_PASSWORD')]) {
-                            sh "docker login docker.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                            sh "docker push ${DOCKER_USERNAME}/hello-img:${env.IMAGE_TAG}"
+                            sh '''
+                              docker login docker.io -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+                              docker push ${DOCKER_USERNAME}/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}
+                            '''
                        }
-                }
 //
-                     sh "git tag ${env.IMAGE_TAG}"
-                     sh "git push https://$GITHUB_TOKEN@github.com/SilkCode01/service.git ${env.IMAGE_TAG}"
+                       sh "git tag ${env.IMAGE_TAG}"
+                       sh "git push https://$GITHUB_TOKEN@github.com/SilkCode01/service.git ${env.IMAGE_TAG}"
+                }
             }
             stage('Run Application') {
                         steps {
