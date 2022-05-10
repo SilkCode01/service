@@ -5,6 +5,6 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "C:\\Users\\tiberiu.ghimbas\\IdeaProjects\\service5\\src\\test\\resources")
+@CucumberOptions(features = " ")
 public class CryptoCoinE2E {
 }
